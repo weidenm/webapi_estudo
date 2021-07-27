@@ -11,7 +11,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ClienteController : Controller
     {
-        [HttpGet]
+        [HttpGet(template: "listar")]
         public ActionResult<IEnumerable<ClienteDto>> ObterClientes() 
         {
             var lista = new List<ClienteDto>();
