@@ -12,13 +12,17 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ClienteController : Controller
     {
-        [HttpGet(template: "listar")]
+        static List<ClienteDto> clientes = new List<ClienteDto>();  //com tipo static só irá perder os dados quando o programa fechar.
+       
+        [HttpGet]    //[HttpGet(template: "listar")]
         public ActionResult<IEnumerable<ClienteDto>> ObterClientes() 
         {
-            var lista = new List<ClienteDto>();
-            lista.Add(item: new ClienteDto() { Nome = "Cristiano"});
-            lista.Add(item: new ClienteDto() { Nome = "Weiden" });
-            return Ok(lista);
+            //var lista = new List<ClienteDto>();
+            //lista.Add(item: new ClienteDto() { Nome = "Cristiano"});
+            //lista.Add(item: new ClienteDto() { Nome = "Weiden" });
+            //return Ok(lista);
+
+            return Ok(clientes);  
         }
 
         [HttpPost]
@@ -33,17 +37,36 @@ namespace WebAPI.Controllers
                 //var lista = new List<ClienteDto>();
                 //throw new Exception("Erro ao salvar no banco de dados!");
                 //lista.Add(clienteDto);
-                //return CreatedAtAction(nameof(CriarCliente), Guid.NewGuid());
-
-                return BadRequest();
+                
+                clientes.Add(clienteDto);
+                return CreatedAtAction(nameof(CriarCliente), Guid.NewGuid());
                 
             }
             catch(Exception ex)
             {
-                return StatusCode(500, "Erro");
+                return StatusCode(500, ex.Message);
             }
             
         }
+
+        [HttpDelete]
+        public ActionResult Remover(string cpf)
+        {
+            foreach(var cliente in clientes)
+            {
+                if (cpf == cliente.Cpf)
+                {
+                    clientes.Remove(cliente);
+                    break;
+                }
+            }
+
+            return Ok();
+        }
+
+        
+
+
 
     }
 }

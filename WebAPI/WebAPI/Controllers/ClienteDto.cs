@@ -9,7 +9,7 @@ namespace WebAPI.Controllers
 {
     public class ClienteDto
     {
-        [Required]  //Para tratar obrigatoriedade de campos.
+        // [Required]  //Para tratar obrigatoriedade de campos.
         public string Nome { get; set; }
         public string Cpf { get; set;  }
         //public int  Idade { get; set; }
